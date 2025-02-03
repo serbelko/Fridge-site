@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+    <style>
+        /* Цветовая гамма Planetary */
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --blue: #0000ff;
+            --gray: #f2f2f2;
+            --red: #ff0000;
+        }
+
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-weight: bold;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Секции с контентом */
+        .section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--black);
+        }
+
+        .section p {
+            font-size: 1.2rem;
+            color: var(--black);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Строка поиска */
+        .search-container {
+            margin-bottom: 40px;
+        }
+
+        .search-container input {
+            padding: 12px 20px;
+            width: 400px;
+            border: 2px solid var(--blue);
+            border-radius: 20px; /* Меньше закругление */
+            font-size: 1rem;
+            outline: none;
+            background: var(--white);
+            color: var(--black);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-container input:focus {
+            border-color: var(--black);
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Карточки товаров */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border: 1px solid var(--gray);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h3 {
+            font-size: 1.4rem;
+            margin: 10px 0;
+            color: var(--black);
+        }
+
+        .product-card p {
+            font-size: 0.9rem;
+            color: var(--black);
+            margin: 5px 0;
+        }
+
+        .product-card p strong {
+            color: var(--blue);
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--black);
+            color: var(--white);
+        }
+
+        footer a {
+            color: var(--blue);
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--red);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Секция с товарами -->
+    <section id="products" class="section">
+        <h2>Доступные товары</h2>
+        
+        <!-- Строка поиска -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Поиск товаров...">
+        </div>
+
+        <!-- Сетка товаров -->
+        <div class="product-grid">
+            <!-- Карточка товара 1 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Батон нарезной">
+                <h3>Батон нарезной</h3>
+                <p><strong>Тип:</strong> Хлеб</p>
+                <p><strong>Производитель:</strong> Пекарня "Зерно"</p>
+                <p><strong>Количество:</strong> 0.5 кг</p>
+                <p><strong>Калорийность:</strong> 265 ккал/100г</p>
+                <p><strong>Аллергены:</strong> глютен</p>
+            </div>
+
+            <!-- Карточка товара 2 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Молоко">
+                <h3>Молоко</h3>
+                <p><strong>Тип:</strong> Молочный продукт</p>
+                <p><strong>Производитель:</strong> Ферма "Светлая"</p>
+                <p><strong>Количество:</strong> 1 л</p>
+                <p><strong>Калорийность:</strong> 42 ккал/100мл</p>
+                <p><strong>Аллергены:</strong> лактоза</p>
+            </div>
+
+            <!-- Карточка товара 3 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Яблоки">
+                <h3>Яблоки</h3>
+                <p><strong>Тип:</strong> Фрукты</p>
+                <p><strong>Производитель:</strong> Сад "Фруктовый рай"</p>
+                <p><strong>Количество:</strong> 1 кг</p>
+                <p><strong>Калорийность:</strong> 52 ккал/100г</p>
+                <p><strong>Аллергены:</strong> нет</p>
+            </div>
+
+            <!-- Карточка товара 4 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Сыр">
+                <h3>Сыр</h3>
+                <p><strong>Тип:</strong> Молочный продукт</p>
+                <p><strong>Производитель:</strong> Сыроварня "Гурман"</p>
+                <p><strong>Количество:</strong> 0.3 кг</p>
+                <p><strong>Калорийность:</strong> 402 ккал/100г</p>
+                <p><strong>Аллергены:</strong> лактоза</p>
+            </div>
+
+            <!-- Карточка товара 5 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Хлеб ржаной">
+                <h3>Хлеб ржаной</h3>
+                <p><strong>Тип:</strong> Хлеб</p>
+                <p><strong>Производитель:</strong> Пекарня "Зерно"</p>
+                <p><strong>Количество:</strong> 0.7 кг</p>
+                <p><strong>Калорийность:</strong> 250 ккал/100г</p>
+                <p><strong>Аллергены:</strong> глютен</p>
+            </div>
+
+            <!-- Карточка товара 6 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Йогурт">
+                <h3>Йогурт</h3>
+                <p><strong>Тип:</strong> Молочный продукт</p>
+                <p><strong>Производитель:</strong> Ферма "Светлая"</p>
+                <p><strong>Количество:</strong> 0.5 л</p>
+                <p><strong>Калорийность:</strong> 60 ккал/100мл</p>
+                <p><strong>Аллергены:</strong> лактоза</p>
+            </div>
+
+            <!-- Карточка товара 7 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Курица">
+                <h3>Курица</h3>
+                <p><strong>Тип:</strong> Мясо</p>
+                <p><strong>Производитель:</strong> Ферма "Домашняя"</p>
+                <p><strong>Количество:</strong> 1 кг</p>
+                <p><strong>Калорийность:</strong> 165 ккал/100г</p>
+                <p><strong>Аллергены:</strong> нет</p>
+            </div>
+
+            <!-- Карточка товара 8 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Картофель">
+                <h3>Картофель</h3>
+                <p><strong>Тип:</strong> Овощи</p>
+                <p><strong>Производитель:</strong> Ферма "Овощной рай"</p>
+                <p><strong>Количество:</strong> 2 кг</p>
+                <p><strong>Калорийность:</strong> 77 ккал/100г</p>
+                <p><strong>Аллергены:</strong> нет</p>
+            </div>
+
+            <!-- Карточка товара 9 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Сок апельсиновый">
+                <h3>Сок апельсиновый</h3>
+                <p><strong>Тип:</strong> Напиток</p>
+                <p><strong>Производитель:</strong> Фабрика "Соки мира"</p>
+                <p><strong>Количество:</strong> 1 л</p>
+                <p><strong>Калорийность:</strong> 45 ккал/100мл</p>
+                <p><strong>Аллергены:</strong> нет</p>
+            </div>
+
+            <!-- Карточка товара 10 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250" alt="Масло сливочное">
+                <h3>Масло сливочное</h3>
+                <p><strong>Тип:</strong> Молочный продукт</p>
+                <p><strong>Производитель:</strong> Ферма "Светлая"</p>
+                <p><strong>Количество:</strong> 0.2 кг</p>
+                <p><strong>Калорийность:</strong> 717 ккал/100г</p>
+                <p><strong>Аллергены:</strong> лактоза</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <p>© 2025 Все права защищены. | <a href="#">Политика конфиденциальности</a></p>
+    </footer>
+
+    <!-- Скрипт для поиска (пока просто заглушка) -->
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function () {
+            const searchTerm = searchInput.value.toLowerCase();
+            console.log('Ищем:', searchTerm);
+            // Здесь можно добавить логику для фильтрации карточек
+        });
+    </script>
+
+</body>
+</html>

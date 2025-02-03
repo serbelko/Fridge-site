@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Истекающий срок годности</title>
+    <style>
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --blue: #007bff;
+            --gray: #f8f9fa;
+            --green: #28a745;
+            --red: #dc3545;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gray);
+            color: var(--black);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--blue);
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .product-list {
+            margin-top: 20px;
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .status {
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status.expiring {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        .status.expired {
+            background: var(--red);
+            color: var(--white);
+        }
+
+        .settings {
+            margin-top: 30px;
+        }
+
+        .settings label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .settings input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .settings button {
+            background: var(--blue);
+            color: var(--white);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .settings button:hover {
+            background: var(--green);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Продукты с истекающим сроком годности</h2>
+        <div class="section product-list">
+            <div class="product">
+                <h3>Молоко</h3>
+                <span class="status expiring">Истекает через 2 дня</span>
+            </div>
+            <div class="product">
+                <h3>Йогурт</h3>
+                <span class="status expired">Просрочен</span>
+            </div>
+            <div class="product">
+                <h3>Сыр</h3>
+                <span class="status expiring">Истекает через 3 дня</span>
+            </div>
+        </div>
+
+        <h2>Настройки уведомлений</h2>
+        <div class="section settings">
+            <label for="notify-days">Напоминать за сколько дней до истечения:</label>
+            <input type="number" id="notify-days" min="1" value="3">
+            <button onclick="saveSettings()">Сохранить настройки</button>
+        </div>
+    </div>
+
+    <script>
+        function saveSettings() {
+            const days = document.getElementById('notify-days').value;
+            alert(`Настройки сохранены! Уведомления будут приходить за ${days} дней до истечения срока годности.`);
+        }
+    </script>
+</body>
+</html>

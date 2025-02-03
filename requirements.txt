@@ -1,0 +1,5 @@
+echo "Flask
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Bcrypt
+flask-login" > requirements.txt

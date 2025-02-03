@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Содержимое холодильника</title>
+    <style>
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --blue: #007bff;
+            --gray: #f8f9fa;
+            --green: #28a745;
+            --red: #dc3545;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gray);
+            color: var(--black);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--blue);
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .search-bar button {
+            background: var(--blue);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: var(--green);
+        }
+
+        .product-list {
+            margin-top: 20px;
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .product h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .product .status {
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .status.good {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .status.expiring {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        .status.expired {
+            background: var(--red);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Содержимое холодильника</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Введите название или тип продукта...">
+            <button>Найти</button>
+        </div>
+        <div class="product-list">
+            <div class="product">
+                <h3>Молоко</h3>
+                <span class="status good">Свежее</span>
+            </div>
+            <div class="product">
+                <h3>Яйца</h3>
+                <span class="status expiring">Срок истекает</span>
+            </div>
+            <div class="product">
+                <h3>Сыр</h3>
+                <span class="status expired">Просрочен</span>
+            </div>
+            <div class="product">
+                <h3>Помидоры</h3>
+                <span class="status good">Свежее</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

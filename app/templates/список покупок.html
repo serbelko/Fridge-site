@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список Покупок и Уведомления</title>
+    <style>
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --blue: #007bff;
+            --gray: #f8f9fa;
+            --green: #28a745;
+            --red: #dc3545;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gray);
+            color: var(--black);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--blue);
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .shopping-list {
+            margin-bottom: 30px;
+        }
+
+        .shopping-list input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .shopping-list button {
+            background: var(--blue);
+            color: var(--white);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .shopping-list button:hover {
+            background: var(--green);
+        }
+
+        .shopping-items {
+            margin-top: 20px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--gray);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .item button {
+            background: var(--red);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .item button:hover {
+            background: var(--black);
+        }
+
+        .notifications {
+            margin-top: 30px;
+        }
+
+        .notification {
+            background: var(--gray);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Список Покупок</h2>
+
+        <div class="section shopping-list">
+            <h3>Добавить товар</h3>
+            <input type="text" id="new-item" placeholder="Введите название товара">
+            <button onclick="addItem()">Добавить</button>
+
+            <div class="shopping-items" id="shopping-items">
+                <div class="item">
+                    <span>Молоко</span>
+                    <button onclick="removeItem(this)">Удалить</button>
+                </div>
+                <div class="item">
+                    <span>Хлеб</span>
+                    <button onclick="removeItem(this)">Удалить</button>
+                </div>
+            </div>
+        </div>
+
+        <h2>Уведомления</h2>
+        <div class="section notifications" id="notifications">
+            <div class="notification">
+                У вас заканчивается молоко. Добавьте в список покупок.
+            </div>
+            <div class="notification">
+                Хлеб просрочен. Рекомендуется удалить.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addItem() {
+            const newItem = document.getElementById('new-item').value;
+            if (newItem.trim() === '') {
+                alert('Введите название товара!');
+                return;
+            }
+
+            const shoppingItems = document.getElementById('shopping-items');
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('item');
+
+            const span = document.createElement('span');
+            span.textContent = newItem;
+
+            const button = document.createElement('button');
+            button.textContent = 'Удалить';
+            button.onclick = function () {
+                removeItem(button);
+            };
+
+            itemDiv.appendChild(span);
+            itemDiv.appendChild(button);
+            shoppingItems.appendChild(itemDiv);
+
+            document.getElementById('new-item').value = '';
+        }
+
+        function removeItem(button) {
+            const item = button.parentElement;
+            item.remove();
+        }
+    </script>
+</body>
+</html>

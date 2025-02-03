@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <style>
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --blue: #007bff;
+            --gray: #f2f2f2;
+            --green: #28a745;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gray);
+            color: var(--black);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            background: var(--white);
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: var(--black);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 5px var(--green);
+            outline: none;
+        }
+
+        .btn {
+            background: var(--blue);
+            color: var(--white);
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--green);
+        }
+
+        .switch {
+            margin-top: 15px;
+        }
+
+        .switch a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        .switch a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Вход</h2>
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Войти</button>
+        </form>
+        <p class="switch">Нет аккаунта? <a href="/register">Зарегистрируйтесь</a></p>
+    </div>
+</body>
+</html>

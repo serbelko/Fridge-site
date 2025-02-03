@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистика и Покупки</title>
+    <style>
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+            --blue: #007bff;
+            --gray: #f8f9fa;
+            --green: #28a745;
+            --red: #dc3545;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--gray);
+            color: var(--black);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--blue);
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .charts {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .history {
+            margin-bottom: 30px;
+        }
+
+        .history input {
+            width: calc(50% - 10px);
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .history button {
+            background: var(--blue);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .history button:hover {
+            background: var(--green);
+        }
+
+        .product-info {
+            margin-bottom: 20px;
+        }
+
+        .product-info .data {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: var(--gray);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .shopping-list {
+            margin-top: 30px;
+        }
+
+        .shopping-list textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid var(--blue);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .shopping-list button {
+            width: 100%;
+            background: var(--blue);
+            color: var(--white);
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .shopping-list button:hover {
+            background: var(--green);
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Статистика и Покупки</h2>
+
+        <div class="section charts">
+            <h3>Графики потребления</h3>
+            <canvas id="consumptionChart"></canvas>
+        </div>
+
+        <div class="section history">
+            <h3>История добавления/удаления</h3>
+            <input type="date" id="start-date" required>
+            <input type="date" id="end-date" required>
+            <button onclick="updateChart()">Показать историю</button>
+        </div>
+
+        <div class="section product-info">
+            <h3>Популярные и редко используемые продукты</h3>
+            <div class="data">
+                <span>Популярный: Яйца</span>
+                <span>Использовано: 25 раз</span>
+            </div>
+            <div class="data">
+                <span>Редкий: Капуста</span>
+                <span>Использовано: 2 раза</span>
+            </div>
+        </div>
+
+        <div class="section shopping-list">
+            <h3>Список покупок</h3>
+            <textarea placeholder="Введите список продуктов..."></textarea>
+            <button onclick="alert('Список покупок сохранен!')">Сохранить список</button>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('consumptionChart').getContext('2d');
+
+        let chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май'],
+                datasets: [{
+                    label: 'Количество продуктов',
+                    data: [12, 19, 3, 5, 2],
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function updateChart() {
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+
+            if (startDate && endDate) {
+                // Здесь можно обновить данные графика на основе выбранных дат
+                chart.data.labels = ['Июнь', 'Июль', 'Август'];
+                chart.data.datasets[0].data = [10, 15, 8];
+                chart.update();
+                alert(`Показана история с ${startDate} по ${endDate}`);
+            } else {
+                alert('Пожалуйста, выберите обе даты!');
+            }
+        }
+    </script>
+</body>
+</html>
