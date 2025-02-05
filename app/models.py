@@ -1,5 +1,5 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 import sqlalchemy as sa
 from flask_login import UserMixin
 from app import login
@@ -22,6 +22,34 @@ class Product(db.Model):
 
     
 
+
+class Fridge(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    count = db.Column(db.Integer, default=1)
+    create_from = db.Column(db.Date, nullable=False)
+    create_until = db.Column(db.Date, nullable=False)
+
+    user = db.relationship('User', backref=db.backref('fridge', lazy=True))
+    product = db.relationship('Product', backref=db.backref('fridge', lazy=True))
+
+
+class ShoppingList(db.Model):
+    __tablename__ = "shopping_list"
+
+    id: Mapped[int] = mapped_column(sa.Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey("user.id"), nullable=False)
+    product_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey("product.id"), nullable=False)
+    count: Mapped[int] = mapped_column(sa.Integer, default=1)
+
+    user = db.relationship('User', backref=db.backref('shopping_list', lazy=True))
+    product = db.relationship('Product', backref=db.backref('shopping_list', lazy=True))
+
+    def __repr__(self):
+        return f"<ShoppingList user_id={self.user_id}, product_id={self.product_id}, count={self.count}>"
+
+
 class User(UserMixin, db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True, autoincrement=True)
     username: Mapped[str] = mapped_column(sa.String(50), unique=True, nullable=False)
@@ -36,7 +64,6 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
-
 
 @login.user_loader
 def load_user(id):

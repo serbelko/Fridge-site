@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFridge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>SmartFridge</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">🏠 Главная</a></li>
+                <li><a href="{{ url_for('fridge') }}">📦 Холодильник</a></li>
+                <li><a href="{{ url_for('shopping_list') }}">🛒 Покупки</a></li>
+                <li><a href="{{ url_for('analytics') }}">📊 Аналитика</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

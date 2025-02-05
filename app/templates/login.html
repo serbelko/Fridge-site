@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
+
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Авторизация</title>
     <style>
         :root {
             --white: #ffffff;
@@ -92,18 +89,25 @@
 <body>
     <div class="container">
         <h2>Вход</h2>
-        <form action="/login" method="POST">
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                {{ form.email.label }}
+                {{ form.email(class_="form-control", id="email") }}
+                {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </div>
             <div class="form-group">
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" name="password" required>
+                {{ form.password.label }}
+                {{ form.password(class_="form-control", id="password") }}
+                {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </div>
-            <button type="submit" class="btn">Войти</button>
+            <button type="submit" class="btn">{{ form.submit.label }}</button>
         </form>
-        <p class="switch">Нет аккаунта? <a href="/register">Зарегистрируйтесь</a></p>
+        <p class="switch">Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрируйтесь</a></p>
     </div>
 </body>
-</html>
+{% endblock %}

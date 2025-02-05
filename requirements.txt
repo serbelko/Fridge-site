@@ -1,5 +1,5 @@
-echo "Flask
-Flask-SQLAlchemy
-Flask-WTF
-Flask-Bcrypt
-flask-login" > requirements.txt
+Flask==2.2.3
+Flask-SQLAlchemy==3.0.0
+Flask-WTF==1.1.1
+pillow==9.5.0
+qrcode==7.3.1

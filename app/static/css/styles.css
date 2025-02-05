@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+}
+
+main {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h2 {
+    color: #333;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin: 10px 0;
+}
+
+.menu li a {
+    display: block;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.menu li a:hover {
+    background-color: #45a049;
+}
+
+
+.actions {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Список товаров */
+.fridge-list {
+    list-style: none;
+    padding: 0;
+}
+
+.fridge-list li {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Кружок-индикатор */
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Цвета статусов */
+.status-indicator.normal { background: green; }
+.status-indicator.warning { background: yellow; }
+.status-indicator.expired { background: red; }
+
+.product-info {
+    flex-grow: 1;
+}

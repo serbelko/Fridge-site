@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Ваш холодильник</h2>
+
+    {% if fridge_items %}
+        <div class="actions">
+            <button><a href="{{ url_for('scan_qr') }}" class="button">📷 Отсканировать QR</a></button>
+            <button><a href="{{ url_for('find_product') }}" class="button">🔍 Найти вручную</a></button>
+        </div>
+
+        <ul class="fridge-list">
+            {% for fridge, product in fridge_items %}
+                <li data-product-id="{{ fridge.product_id }}">
+                    <div class="status-indicator 
+                        {% if fridge.create_until < current_date %} expired
+                        {% elif fridge.create_until <= two_days_before_expiry %} warning
+                        {% else %} normal {% endif %}">
+                    </div>
+                    <div class="product-info">
+                        <strong>{{ product.name }}</strong> ({{ product.product_type }})<br>
+                        Количество: {{ fridge.count }}<br>
+                        Срок годности: {{ fridge.create_from }} → {{ fridge.create_until }}
+                    </div>
+                    <button class="delete-btn">🗑️ Удалить</button>
+                </li>
+            {% endfor %}
+
+        </ul>
+
+    {% else %}
+        <p>Ваш холодильник пуст! Добавьте продукты:</p>
+        <div class="actions">
+            <a href="{{ url_for('scan_qr') }}" class="btn">📷 Отсканировать QR</a>
+            <a href="{{ url_for('find_product') }}" class="btn">🔍 Найти вручную</a>
+        </div>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/fridge.js') }}"></script>
+{% endblock %}

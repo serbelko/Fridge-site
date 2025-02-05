@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Добро пожаловать в SmartFridge</h2>
+    <p>Выберите раздел:</p>
+
+    <ul class="menu">
+        <li><a href="{{ url_for('fridge') }}">📦 Содержимое холодильника</a></li>
+        <li><a href="{{ url_for('shopping_list') }}">🛒 Список покупок</a></li>
+        <li><a href="{{ url_for('analytics') }}">📊 Аналитика потребления</a></li>
+    </ul>
+{% endblock %}
