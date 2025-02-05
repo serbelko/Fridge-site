@@ -50,7 +50,7 @@ def users(): # Вывод всех user в БД (для тестирования
 
 
 @app.route('/api/fridge/add', methods=['POST'])
-def add_to_fridge():
+def test_add_to_fridge():
     data = request.get_json()
 
     # Проверяем, есть ли все необходимые данные в запросе

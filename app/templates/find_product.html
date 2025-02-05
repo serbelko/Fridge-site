@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Выберите продукт для добавления</h2>
+
+    <!-- Поле поиска -->
+    <input type="text" id="search-box" placeholder="🔍 Поиск товара..." class="search-input">
+
+    <ul class="product-list">
+        {% for product in products %}
+            <li data-product-id="{{ product.id }}" class="product-item">
+                <div class="product-info">
+                    <strong class="product-name">{{ product.name }}</strong> ({{ product.product_type }})
+                    {% if product.id in fridge_items %}
+                        <span class="in-fridge-badge">В холодильнике</span>
+                    {% endif %}
+                </div>
+                <button class="add-btn">➕ Добавить</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Модальное окно для выбора дат -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Добавить продукт</h3>
+            <form id="add-product-form">
+                <input type="hidden" id="selected-product-id">
+                
+                <label for="create-from">Дата изготовления:</label>
+                <input type="date" id="create-from" required>
+                
+                <label for="create-until">Срок годности:</label>
+                <input type="date" id="create-until" required>
+                
+                <button type="submit">✅ Добавить в холодильник</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/find_product.js') }}"></script>
+{% endblock %}
