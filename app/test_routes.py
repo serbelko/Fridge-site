@@ -110,3 +110,80 @@ def get_user_fridge(user_id):
     ]
 
     return jsonify(response), 200
+
+
+@app.route('/generate_qr', methods=['POST'])
+@login_required
+def generate_qr():
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({"error": "Отсутствуют данные для генерации QR-кода"}), 400
+
+    return generate_qr_code(data)
+
+
+import qrcode
+import json
+from io import BytesIO
+from flask import send_file
+
+def generate_qr_code(product_data):
+    """
+    Генерирует QR-код для переданных данных о продукте.
+    :param product_data: dict с информацией о продукте.
+    :return: HTTP-ответ с изображением QR-кода.
+    """
+    try:
+        # Преобразуем словарь в JSON-строку
+        qr_data = json.dumps(product_data, ensure_ascii=False)
+
+        # Создаём QR-код
+        qr = qrcode.make(qr_data)
+        buffer = BytesIO()
+        qr.save(buffer, format="PNG")
+        buffer.seek(0)
+
+        return send_file(buffer, mimetype="image/png")
+    
+    except Exception as e:
+        return {"error": f"Ошибка генерации QR-кода: {str(e)}"}, 500
+
+
+@app.route('/generate_qr_page', methods=['GET', 'POST'])
+@login_required
+def generate_qr_page():
+    if request.method == 'POST':
+           # Получаем данные из формы
+        product_id = request.form.get('product_id')
+        create_from = request.form.get('create_from')
+        create_until = request.form.get('create_until')
+        count = request.form.get('count')
+
+        # Проверяем, что все обязательные поля заполнены
+        if not all([product_id, create_from, create_until, count]):
+            return render_template('generate_qr.html', error="Заполните все обязательные поля!")
+
+        # Формируем данные для QR-кода
+        qr_data = {
+            "product_id": product_id,
+            "create_from": create_from,
+            "create_until": create_until,
+            "count": count,
+            "user_id": current_user.id  # Текущий пользователь
+        }
+
+        # Генерация QR-кода
+        qr_img = qrcode.make(qr_data)
+        buffer = BytesIO()
+        qr_img.save(buffer, format="PNG")
+        buffer.seek(0)
+
+        return send_file(buffer, mimetype='image/png', as_attachment=True, download_name='qr_code.png')
+
+    return render_template('generate_qr.html')
+
+@app.route('/get_user_id', methods=['GET'])
+@login_required
+def get_user_id():
+    return jsonify({"user_id": current_user.id})

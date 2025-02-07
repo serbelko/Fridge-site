@@ -10,4 +10,4 @@ login.login_view = 'login'  # Перенаправление на страниц
 login.login_message = "Пожалуйста, войдите в систему."
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-from app import routes, models, forms, test_routes
+from app import routes, models, forms, test_routes, signIN_and_UP, fridge, scan
