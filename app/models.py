@@ -50,6 +50,19 @@ class ShoppingList(db.Model):
         return f"<ShoppingList user_id={self.user_id}, product_id={self.product_id}, count={self.count}>"
 
 
+class Analytics(db.Model):
+
+    id: Mapped[int] = mapped_column(sa.Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey("user.id"), nullable=False)
+    product_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey("product.id"), nullable=False)
+    use_date = db.Column(db.Date, nullable=False)
+
+
+
+    user = db.relationship('User', backref=db.backref('analytics', lazy=True))
+    product = db.relationship('Product', backref=db.backref('analytics', lazy=True))
+
+
 class User(UserMixin, db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True, autoincrement=True)
     username: Mapped[str] = mapped_column(sa.String(50), unique=True, nullable=False)

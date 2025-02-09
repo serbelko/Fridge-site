@@ -1,11 +1,5 @@
-from flask import request, jsonify, render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for
 from app import db, app
-import base64
-from datetime import date, timedelta, datetime
-import sqlalchemy as sa
-import numpy as np
-import cv2
-import json
 from urllib.parse import urlsplit
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Product, Fridge, ShoppingList
