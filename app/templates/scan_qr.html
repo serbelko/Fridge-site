@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Сканирование QR-кода</h2>
+<h2>Сканирование QR-кода</h2>
 
-    <div id="scanner-container">
-        <video id="scanner" autoplay></video>
-        <button id="start-scan">📷 Включить камеру</button>
-        <button id="scan-qr" style="display: none;">🔍 Сканировать QR-код</button>
-    </div>
+<div id="scanner-container">
+    <video id="scanner" autoplay></video>
+    <button id="start-scan">📷 Включить камеру</button>
+    <button id="scan-qr" style="display: none;">🔍 Сканировать QR-код</button>
+</div>
 
-    <div id="product-info" style="display: none;">
-        <h3>Товар найден:</h3>
-        <p><strong>Название:</strong> <span id="product-name"></span></p>
-        <p><strong>Тип:</strong> <span id="product-type"></span></p>
-        <p><strong>Количество:</strong> <span id="product-quantity"></span></p>
-        <p><strong>Срок годности:</strong> <span id="product-expiration"></span></p>
+<div id="product-info" style="display: none;">
+    <h3>Товар найден:</h3>
+    <p><strong>Название:</strong> <span id="product-name"></span></p>
+    <p><strong>Тип:</strong> <span id="product-type"></span></p>
+    <p><strong>Количество:</strong> <span id="product-quantity"></span></p>
+    <p><strong>Срок годности:</strong> <span id="product-expiration"></span></p>
+    <p><strong>Единица измерения:</strong> <span id="product-unit"></span></p>
+    <p><strong>Пищевая ценность:</strong> <span id="product-nutrition"></span></p>
+    <p><strong>Аллергены:</strong> <span id="product-allergens"></span></p>
 
-        <button id="add-to-fridge">✅ Добавить в холодильник</button>
-        <button id="cancel">🔄 Отмена</button>
-    </div>
+    <button id="add-to-fridge">✅ Добавить в холодильник</button>
+    <button id="cancel">🔄 Отмена</button>
+</div>
 
-    <script src="{{ url_for('static', filename='js/scan_qr.js') }}"></script>
-    
+<script src="{{ url_for('static', filename='js/scan_qr.js') }}"></script>
 {% endblock %}

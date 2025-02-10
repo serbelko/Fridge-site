@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    await getUserId();  // Загружаем user_id сразу
+    await getUserId(); // Загружаем user_id сразу
 
     // --- Проверяем поддержку камеры ---
     async function checkCameraAccess() {
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const constraints = {
                 video: {
                     facingMode: { ideal: "environment" }, // Задняя камера на телефонах
-                    width: { ideal: 1280 }, 
+                    width: { ideal: 1280 },
                     height: { ideal: 720 }
                 }
             };
@@ -88,7 +88,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             const result = await response.json();
             if (response.ok) {
                 productData = result;
-                console.log("Данные товара:", productData);
+                console.log("Данные товара из QR-кода:", productData);
+                await fetchProductDetails(productData.product_id); // Получаем дополнительные данные
                 showProductInfo();
             } else {
                 console.error("Ошибка сервера:", result.error);
@@ -100,6 +101,29 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     });
 
+    // --- Получение данных о продукте ---
+    async function fetchProductDetails(productId) {
+        try {
+            const response = await fetch(`/api/products/${productId}`);
+            const details = await response.json();
+
+            if (response.ok) {
+                // Объединяем данные из QR-кода и дополнительные данные
+                productData = {
+                    ...productData,
+                    ...details
+                };
+                console.log("Полные данные о продукте:", productData);
+            } else {
+                console.error("Ошибка сервера при получении данных продукта:", details.error);
+                alert("Ошибка при получении данных продукта.");
+            }
+        } catch (error) {
+            console.error("Ошибка запроса данных о продукте:", error);
+            alert("Ошибка при запросе данных о продукте.");
+        }
+    }
+
     // --- Отображение данных о товаре ---
     function showProductInfo() {
         if (!productData) {
@@ -107,19 +131,16 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
-        // Проверка обязательных данных
-        if (!productData.create_from) {
-            alert("Ошибка: отсутствует дата производства продукта!");
-            return;
-        }
-
-        if (!productData.create_until) {
-            alert("Ошибка: отсутствует срок годности продукта!");
-            return;
-        }
-
         productInfo.style.display = "block";
         scannerContainer.style.display = "none"; // Скрываем камеру
+
+        document.getElementById("product-name").textContent = productData.name || "Неизвестно";
+        document.getElementById("product-type").textContent = productData.product_type || "Неизвестно";
+        document.getElementById("product-quantity").textContent = productData.quantity || "0";
+        document.getElementById("product-expiration").textContent = `${productData.create_from} → ${productData.create_until}`;
+        document.getElementById("product-unit").textContent = productData.unit || "Не указано";
+        document.getElementById("product-nutrition").textContent = productData.nutrition_info || "Нет данных";
+        document.getElementById("product-allergens").textContent = productData.allergens ? "Присутствуют" : "Отсутствуют";
     }
 
     // --- Добавление в холодильник ---

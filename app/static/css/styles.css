@@ -537,3 +537,124 @@ video {
     display: block;
 }
 
+.fridge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.fridge-card {
+    background-color: #333;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fridge-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.status-indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.status-indicator.normal {
+    background-color: #4CAF50;
+}
+
+.status-indicator.warning {
+    background-color: #FFCC00;
+}
+
+.status-indicator.expired {
+    background-color: #FF0000;
+}
+
+.product-details h3 {
+    color: #fff;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.product-details p {
+    color: #ddd;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.delete-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #FF6347;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.fridge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.fridge-card {
+    background-color: #2d2d2d;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.status-indicator.expired {
+    background-color: red;
+}
+
+.status-indicator.warning {
+    background-color: orange;
+}
+
+.status-indicator.normal {
+    background-color: green;
+}
+
+.product-details {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.delete-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #cc0000;
+}

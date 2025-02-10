@@ -67,6 +67,35 @@ def users(): # Вывод всех user в БД (для тестирования
     } for p in products])
 
 
+from flask import jsonify
+from app import app, db
+from app.models import Product
+
+@app.route('/api/products/<int:product_id>', methods=['GET'])
+def get_product_details(product_id):
+    """
+    Получение полной информации о продукте по его ID.
+    """
+    product = Product.query.get(product_id)
+    
+    if not product:
+        return jsonify({"error": "Продукт с таким ID не найден"}), 404
+
+    # Формируем JSON-ответ с данными продукта
+    product_data = {
+        "id": product.id,
+        "name": product.name,
+        "product_type": product.product_type,
+        "quantity": product.quantity,
+        "unit": product.unit,
+        "nutrition_info": product.nutrition_info,
+        "allergens": product.allergens
+    }
+
+    return jsonify(product_data), 200
+
+
+
 @app.route('/api/fridge/add', methods=['POST'])
 def test_add_to_fridge():
     data = request.get_json()
