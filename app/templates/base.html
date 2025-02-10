@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartFridge</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script defer src="{{ url_for('static', filename='js/notifications.js') }}"></script>
+
 </head>
 <body>
     <header>
         <h1>SmartFridge</h1>
         <nav>
+            <div class="notification-container">
+                <button id="notification-bell">
+                    🔔 <span id="notification-count" class="badge">0</span>
+                </button>
+                <div id="notification-dropdown" class="notification-dropdown">
+                    <p id="no-notifications">Нет уведомлений</p>
+                    <ul id="notification-list"></ul>
+                </div>
+            </div>
+            
             <ul>
                 <li><a href="{{ url_for('index') }}">🏠 Главная</a></li>
                 <li><a href="{{ url_for('fridge') }}">📦 Холодильник</a></li>
@@ -17,6 +29,7 @@
                 <li><a href="{{ url_for('analytics') }}">📊 Аналитика</a></li>
             </ul>
         </nav>
+        
     </header>
     <main>
         {% block content %}{% endblock %}

@@ -190,3 +190,36 @@ def update_shopping_list():
 def logout(): # Выход пользователя из сессии
     logout_user()
     return redirect(url_for('login'))
+
+
+@app.route('/notifications', methods=['GET'])
+@login_required
+def get_notifications():
+    """Возвращает уведомления о продуктах в холодильнике."""
+    notifications = []
+    current_date = datetime.today().date()
+
+    # Запрос всех продуктов в холодильнике текущего пользователя
+    fridge_items = db.session.query(Fridge, Product).join(Product).filter(Fridge.user_id == current_user.id).all()
+
+    for fridge, product in fridge_items:
+        days_until_expiry = (fridge.create_until - current_date).days
+
+        if days_until_expiry == 3:
+            notifications.append({
+                "message": f"Срок годности продукта '{product.name}' истекает через 3 дня ({fridge.create_until})."
+            })
+        elif days_until_expiry == 1:
+            notifications.append({
+                "message": f"Продукт '{product.name}' истекает завтра ({fridge.create_until})."
+            })
+        elif days_until_expiry == 0:
+            notifications.append({
+                "message": f"Срок годности продукта '{product.name}' истекает сегодня ({fridge.create_until})."
+            })
+        elif days_until_expiry < 0:
+            notifications.append({
+                "message": f"Продукт '{product.name}' уже испортился ({fridge.create_until})."
+            })
+
+    return jsonify(notifications)
