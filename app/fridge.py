@@ -1,12 +1,9 @@
 from flask import request, jsonify, render_template, flash, redirect, url_for
 from app import db, app
-import base64
 from datetime import date, timedelta, datetime
-import sqlalchemy as sa
 from urllib.parse import urlsplit
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Product, Fridge, ShoppingList, Analytics
-
 
 
 @app.route('/fridge')
@@ -53,7 +50,6 @@ def delete_from_fridge(product_id):
     db.session.commit()
 
     return jsonify({"message": "Продукт удалён", "product_id": product_id}), 200
-
 
 
 @app.route('/fridge/add', methods=['POST'])
@@ -122,8 +118,6 @@ def add_to_fridge():
     return jsonify(response_data), 201
 
 
-
-# --- Перемещение товара в холодильник через форму ---
 @app.route('/shopping_list/move_to_fridge/<int:product_id>', methods=['POST'])
 @login_required
 def move_to_fridge(product_id):
