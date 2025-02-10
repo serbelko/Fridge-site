@@ -60,8 +60,9 @@ def add_to_fridge():
     if not data:
         return jsonify({"error": "Данные не предоставлены"}), 400
 
-    if not isinstance(data, list) or len(data) == 0:
-        return jsonify({"error": "Некорректный формат запроса"}), 400
+    # Преобразуем в список, если пришел один объект
+    if isinstance(data, dict):
+        data = [data]
 
     response_data = []
 
@@ -75,14 +76,13 @@ def add_to_fridge():
             product_id = item['product_id']
             create_from = datetime.strptime(item['create_from'], "%Y-%m-%d").date()
             create_until = datetime.strptime(item['create_until'], "%Y-%m-%d").date()
-            count = item.get('count', 1)
+            count = int(item.get('count', 1))
             user_id = current_user.id
-            current_date = datetime.today().date()
 
-            # Проверяем, есть ли уже этот продукт в холодильнике пользователя
+            # Проверяем наличие продукта в холодильнике
             fridge_item = Fridge.query.filter_by(user_id=user_id, product_id=product_id).first()
 
-            if fridge_item and fridge_item.create_until == create_until:
+            if fridge_item:
                 fridge_item.count += count  # Увеличиваем количество
             else:
                 fridge_item = Fridge(
@@ -94,16 +94,6 @@ def add_to_fridge():
                 )
                 db.session.add(fridge_item)
 
-            # Добавляем запись в аналитику
-            analytics_entry = Analytics(
-                user_id=user_id,
-                product_id=product_id,
-                action=1,  # 1 - добавление
-                count=count,
-                add_date=current_date
-            )
-            db.session.add(analytics_entry)
-
             response_data.append({
                 "product_id": product_id,
                 "count": fridge_item.count,
@@ -112,9 +102,9 @@ def add_to_fridge():
 
         except Exception as e:
             db.session.rollback()
-            return jsonify({"error": f"Ошибка при добавлении товара {item}: {str(e)}"}), 500
+            return jsonify({"error": f"Ошибка: {str(e)}"}), 500
 
-    db.session.commit()  # Сохраняем изменения в базе данных
+    db.session.commit()
     return jsonify(response_data), 201
 
 
