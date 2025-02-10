@@ -10,8 +10,6 @@ class Product(db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(sa.String(100), nullable=False)
     product_type: Mapped[str] = mapped_column(sa.String(50), nullable=False)
-    manufacture_date: Mapped[sa.Date] = mapped_column(sa.Date, nullable=False)
-    expiration_date: Mapped[sa.Date] = mapped_column(sa.Date, nullable=False)
     quantity: Mapped[float] = mapped_column(sa.Float, nullable=False)
     unit: Mapped[str] = mapped_column(sa.String(20), nullable=False)  # кг, шт, л и т. д.
     nutrition_info: Mapped[str] = mapped_column(sa.Text, nullable=True)

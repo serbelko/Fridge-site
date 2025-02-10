@@ -4,33 +4,51 @@ import sqlalchemy as sa
 from urllib.parse import urlsplit
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import Product, User, Fridge
-from app.forms import RegistrationForm, LoginForm
 from datetime import datetime
 
 @app.route('/api/products', methods=['GET'])
-def get_products(): # Вывод всех продуктов (пока не реализован)
+def get_products():
+    """Вывод всех продуктов."""
     products = Product.query.all()
-    return jsonify([{
-        'id': p.id, 'name': p.name, 'product_type': p.product_type,
-        'manufacture_date': p.manufacture_date.strftime('%Y-%m-%d'),
-        'expiration_date': p.expiration_date.strftime('%Y-%m-%d'),
-        'quantity': p.quantity, 'unit': p.unit, 'nutrition_info': p.nutrition_info
-    } for p in products])
+    return jsonify([
+        {
+            'id': p.id,
+            'name': p.name,
+            'product_type': p.product_type,
+            'quantity': p.quantity,
+            'unit': p.unit,
+            'nutrition_info': p.nutrition_info,
+            'allergens': p.allergens
+        } for p in products
+    ])
+
 
 @app.route('/api/products', methods=['POST'])
-def add_product(): #добавление нового продукта (пока не реализован)
+def add_product():
+    """Добавление нового продукта."""
     data = request.get_json()
-    new_product = Product(
-        name=data['name'], 
-        product_type=data['product_type'],
-        manufacture_date=datetime.strptime(data['manufacture_date'], '%Y-%m-%d'),
-        expiration_date=datetime.strptime(data['expiration_date'], '%Y-%m-%d'),
-        quantity=data['quantity'], unit=data['unit'],
-        nutrition_info=data.get('nutrition_info', '')
-    )
-    db.session.add(new_product)
-    db.session.commit()
-    return jsonify({'message': 'Продукт добавлен'}), 201
+
+    try:
+        # Проверяем наличие всех обязательных полей
+        required_fields = ['name', 'product_type', 'quantity', 'unit']
+        if not all(field in data for field in required_fields):
+            return jsonify({'error': 'Отсутствуют обязательные поля'}), 400
+
+        # Создаем новый продукт
+        new_product = Product(
+            name=data['name'],
+            product_type=data['product_type'],
+            quantity=float(data['quantity']),
+            unit=data['unit'],
+            nutrition_info=data.get('nutrition_info', ''),
+            allergens=bool(data.get('allergens', False))
+        )
+        db.session.add(new_product)
+        db.session.commit()
+        return jsonify({'message': 'Продукт добавлен успешно'}), 201
+
+    except Exception as e:
+        return jsonify({'error': f'Ошибка при добавлении продукта: {str(e)}'}), 500
 
 @app.route('/api/products/<int:product_id>', methods=['DELETE'])
 def delete_product(product_id): # удаление продукта по его айди (пока не реализован)
