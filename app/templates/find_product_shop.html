@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Список покупок</h2>
+
+<div class="search-container">
+    <input type="text" id="search-box" placeholder="Поиск продуктов..." />
+</div>
+
+<ul class="product-list">
+    {% for product in products %}
+    <li class="product-item" data-product-id="{{ product.id }}">
+        <span class="product-name">{{ product.name }}</span>
+        <button class="add-btn">Добавить в список покупок</button>
+    </li>
+    {% endfor %}
+</ul>
+
+<div id="modal" style="display: none;">
+    <form id="add-product-form">
+        <label for="selected-product-id">ID Продукта:</label>
+        <input type="text" id="selected-product-id" readonly />
+
+        <label for="count">Количество:</label>
+        <input type="number" id="count" min="1" required />
+
+        <button type="submit">Добавить</button>
+        <button type="button" class="close">Закрыть</button>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/shopping_list.js') }}"></script>
+{% endblock %}

@@ -3,12 +3,9 @@ from app import db, app
 import base64
 from datetime import date, timedelta, datetime
 import sqlalchemy as sa
-import numpy as np
-import cv2
-import json
 from urllib.parse import urlsplit
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import Product, Fridge, ShoppingList
+from app.models import Product, Fridge, ShoppingList, Analytics
 
 
 
@@ -33,13 +30,25 @@ def fridge():
 @app.route('/api/fridge/<int:product_id>', methods=['DELETE'])
 @login_required
 def delete_from_fridge(product_id):
+    """удаление продукта"""
     # Проверяем, есть ли продукт у текущего пользователя
     fridge_item = Fridge.query.filter_by(user_id=current_user.id, product_id=product_id).first()
+    current_date = datetime.today().date()
+    user_id = fridge_item.user_id
+    count = fridge_item.count
 
     if not fridge_item:
         return jsonify({"error": "Продукт не найден в вашем холодильнике"}), 404
-
-    # Удаляем продукт
+    
+    analytics_entry = Analytics(
+                user_id=user_id,
+                product_id=product_id,
+                action=0,  # 0 - удаление
+                count=count,
+                add_date=current_date
+            )
+    
+    db.session.add(analytics_entry)
     db.session.delete(fridge_item)
     db.session.commit()
 
@@ -51,39 +60,67 @@ def delete_from_fridge(product_id):
 @login_required
 def add_to_fridge():
     data = request.get_json()
-    print('в холодильник добавлено')
-    # Проверяем, есть ли все необходимые данные в запросе
-    required_fields = ['product_id', 'create_from', 'create_until', 'count']
-    if not all(field in data for field in required_fields):
-        print(data.get('product_id'), data.get('create_until'), data.get('create_from'), data.get('count'))
-        return jsonify({"error": "Отсутствуют обязательные поля :)"}), 400
 
-    product_id = data['product_id']
-    create_from = datetime.strptime(data['create_from'], "%Y-%m-%d").date()
-    create_until = datetime.strptime(data['create_until'], "%Y-%m-%d").date()
-    count = data.get('count', 1)
-    user_id = current_user.id
+    if not data:
+        return jsonify({"error": "Данные не предоставлены"}), 400
 
-    # Проверяем, есть ли уже этот продукт в холодильнике пользователя
-    fridge_item = Fridge.query.filter_by(user_id=user_id, product_id=product_id).first()
+    if not isinstance(data, list) or len(data) == 0:
+        return jsonify({"error": "Некорректный формат запроса"}), 400
 
-    if fridge_item and fridge_item.create_until == create_until:
-        # Если продукт уже есть, увеличиваем `count`
-        fridge_item.count += count
-    else:
-        # Если продукта нет, создаём новую запись
-        fridge_item = Fridge(
-            user_id=user_id,
-            product_id=product_id,
-            count=count,
-            create_from=create_from,
-            create_until=create_until
-        )
-        db.session.add(fridge_item)
+    response_data = []
 
-    db.session.commit()
+    for item in data:
+        # Проверяем наличие всех обязательных полей
+        required_fields = ['product_id', 'create_from', 'create_until', 'count']
+        if not all(field in item for field in required_fields):
+            return jsonify({"error": f"Отсутствуют обязательные поля в объекте {item}"}), 400
 
-    return jsonify({"message": "Продукт успешно добавлен в холодильник", "product_id": product_id, "count": fridge_item.count}), 201
+        try:
+            product_id = item['product_id']
+            create_from = datetime.strptime(item['create_from'], "%Y-%m-%d").date()
+            create_until = datetime.strptime(item['create_until'], "%Y-%m-%d").date()
+            count = item.get('count', 1)
+            user_id = current_user.id
+            current_date = datetime.today().date()
+
+            # Проверяем, есть ли уже этот продукт в холодильнике пользователя
+            fridge_item = Fridge.query.filter_by(user_id=user_id, product_id=product_id).first()
+
+            if fridge_item and fridge_item.create_until == create_until:
+                fridge_item.count += count  # Увеличиваем количество
+            else:
+                fridge_item = Fridge(
+                    user_id=user_id,
+                    product_id=product_id,
+                    count=count,
+                    create_from=create_from,
+                    create_until=create_until
+                )
+                db.session.add(fridge_item)
+
+            # Добавляем запись в аналитику
+            analytics_entry = Analytics(
+                user_id=user_id,
+                product_id=product_id,
+                action=1,  # 1 - добавление
+                count=count,
+                add_date=current_date
+            )
+            db.session.add(analytics_entry)
+
+            response_data.append({
+                "product_id": product_id,
+                "count": fridge_item.count,
+                "message": "Продукт успешно добавлен"
+            })
+
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": f"Ошибка при добавлении товара {item}: {str(e)}"}), 500
+
+    db.session.commit()  # Сохраняем изменения в базе данных
+    return jsonify(response_data), 201
+
 
 
 # --- Перемещение товара в холодильник через форму ---

@@ -55,7 +55,10 @@ class Analytics(db.Model):
     id: Mapped[int] = mapped_column(sa.Integer, primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey("user.id"), nullable=False)
     product_id: Mapped[int] = mapped_column(sa.Integer, sa.ForeignKey("product.id"), nullable=False)
-    use_date = db.Column(db.Date, nullable=False)
+    action: Mapped[int] = mapped_column(sa.Integer, nullable=False) # 1 - добавление, 0 - удаление
+    count: Mapped[int] = mapped_column(sa.Integer, default=1)
+    add_date = db.Column(db.Date)
+    delete_date = db.Column(db.Date)
 
 
 

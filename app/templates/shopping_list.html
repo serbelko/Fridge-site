@@ -4,7 +4,7 @@
     <h2>Ваш список покупок</h2>
 
     <div class="actions">
-        <button><a href="{{ url_for('find_product') }}" class="button">🔍 Добавить вручную</a></button>
+        <button><a href="{{ url_for('find_product_shop') }}" class="button">🔍 Добавить вручную</a></button>
     </div>
 
     {% if shopping_items %}
@@ -24,5 +24,5 @@
         <p>Ваш список покупок пуст! Добавьте товары.</p>
     {% endif %}
 
-    <script src="{{ url_for('static', filename='js/shopping_list.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/shop_list.js') }}"></script>
 {% endblock %}
